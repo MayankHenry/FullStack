@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+
+    <h1>Welcome {{ username }} 👋</h1>
+    <p>You are successfully logged in.</p>
+
+    <br>
+
+    <!-- Update Email -->
+    <a href="{{ url_for('update_email') }}">
+        <button>Update Email</button>
+    </a>
+
+    <br><br>
+
+    <!-- Delete Account -->
+    <a href="{{ url_for('delete_account') }}">
+        <button style="background-color:red; color:white;">
+            Delete Account
+        </button>
+    </a>
+
+    <br><br>
+
+    <!-- Logout -->
+    <a href="{{ url_for('logout') }}">
+        <button>Logout</button>
+    </a>
+
+</body>
+</html>

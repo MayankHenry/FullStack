@@ -1,0 +1,221 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GLA Demo — Beautiful UI</title>
+  <meta name="theme-color" content="#6C5CE7">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1: #F1F5FF; /* light */
+      --bg2: #E8F0FF;
+      --accent: linear-gradient(135deg,#6C5CE7 0%,#1E90FF 100%);
+      --glass: rgba(255,255,255,0.6);
+      --muted: #6b7280;
+      --card-radius: 16px;
+      --glass-shadow: 0 8px 30px rgba(25, 25, 50, 0.08);
+    }
+    /* Reset & layout */
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(108,92,231,0.08), transparent 10%),
+                  radial-gradient(1000px 500px at 90% 90%, rgba(30,144,255,0.06), transparent 12%),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:#0F172A; padding:48px; -webkit-font-smoothing:antialiased;
+    }
+    .wrap{max-width:980px; margin:0 auto;}
+
+n    header{
+      display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:28px;
+    }
+    .brand{display:flex; gap:14px; align-items:center}
+    .logo{width:54px; height:54px; border-radius:12px; background:var(--accent); display:grid; place-items:center; box-shadow: var(--glass-shadow); color:white; font-weight:700}
+    .title h1{margin:0; font-size:20px; letter-spacing:-0.2px}
+    .title p{margin:0; color:var(--muted); font-size:13px}
+
+    /* Theme toggle */
+    .controls{display:flex; gap:10px; align-items:center}
+    .btn{background:transparent; border:0; padding:10px 14px; border-radius:10px; cursor:pointer; color:#0f172a; display:inline-flex; gap:8px; align-items:center}
+    .btn.primary{background:var(--accent); color:white; box-shadow: 0 8px 30px rgba(30,144,255,0.12);}
+
+    /* Grid */
+    .grid{display:grid; grid-template-columns:1fr 380px; gap:20px}
+    .left{display:flex; flex-direction:column; gap:18px}
+
+    /* Card - glassy */
+    
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,0.7), rgba(255,255,255,0.5));
+      border-radius:var(--card-radius); padding:22px; box-shadow:var(--glass-shadow); backdrop-filter: blur(8px); border: 1px solid rgba(255,255,255,0.6);
+    }
+    h2{margin:0 0 8px 0}
+    p.small{color:var(--muted); margin:0 0 12px 0}
+
+    /* Controls inside cards */
+    
+    .controls-row{display:flex; gap:10px; align-items:center}
+    input[type=number]{width:100px; padding:10px 12px; border-radius:10px; border:1px solid rgba(15,23,42,0.06); font-size:14px}
+    .action{padding:10px 14px; border-radius:10px; border:0; background:linear-gradient(90deg,#6C5CE7,#1E90FF); color:white; font-weight:600; cursor:pointer}
+
+    /* Result */
+    .result{margin-top:12px; padding:12px; border-radius:10px; background:linear-gradient(180deg, rgba(15,23,42,0.03), rgba(15,23,42,0.01)); color:#0f172a; font-weight:600}
+
+    /* Right column */
+    .panel{position:sticky; top:28px; display:flex; flex-direction:column; gap:12px}
+    .stat{display:flex; gap:12px; align-items:center}
+    .stat .num{font-size:20px; font-weight:700; color:#111}
+    .stat .label{font-size:12px; color:var(--muted)}
+
+    /* small UI touches */
+    .muted{color:var(--muted)}
+    .pulse{animation:pulse 1.4s ease infinite}
+    @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.04)}100%{transform:scale(1)}}
+
+    /* greeting flourish */
+    .greet-anim{display:inline-block; animation:pop .5s cubic-bezier(.2,.85,.32,1)}
+    @keyframes pop{0%{transform:scale(.9); opacity:0}100%{transform:scale(1); opacity:1}}
+
+    footer{margin-top:36px; color:var(--muted); font-size:13px; text-align:center}
+
+    /* Responsive */
+    @media (max-width:900px){.grid{grid-template-columns:1fr;}.panel{position:relative; top:0}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo">GLA</div>
+        <div class="title">
+          <h1>GLA University — Interactive Demo</h1>
+          <p>Friendly UI, subtle animations, and delightful micro-interactions ✨</p>
+        </div>
+      </div>
+      <div class="controls">
+        <button class="btn" id="themeToggle" title="Toggle theme">🌙</button>
+        <button class="btn primary" onclick="showGreeting()">Greet me</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <div class="left">
+        <div class="card" id="greetingCard">
+          <h2>Hello!</h2>
+          <p class="small">Click <strong>Greet me</strong> or the button below to see a lovely greeting.</p>
+          <button class="action" onclick="showGreeting(true)">Surprise Me ✨</button>
+          <div class="result" id="greeting">You haven't been greeted yet — try the button!</div>
+        </div>
+
+n        <div class="card" aria-live="polite">
+          <h2>Factorial Calculator</h2>
+          <p class="small">Enter a non-negative integer and compute its factorial instantly (BigInt supported).</p>
+          <div class="controls-row">
+            <input id="num" type="number" min="0" value="5" aria-label="Number input for factorial">
+            <button class="action" onclick="computeFactorial()">Compute</button>
+            <button class="btn" onclick="explainFactorial()">How it works</button>
+          </div>
+          <div class="result" id="factResult">Result will appear here.</div>
+        </div>
+
+        <div class="card">
+          <h2>Current Time</h2>
+          <p class="small">Show your current local time (updated live when you click).</p>
+          <div class="controls-row">
+            <button class="action" onclick="showTime(true)">Show time</button>
+            <button class="btn" onclick="toggleClock()">Start/Stop Live</button>
+          </div>
+          <div class="result" id="time">—</div>
+        </div>
+      </div>
+
+n      <aside class="panel">
+        <div class="card stat">
+          <div>
+            <div class="num" id="visitors">1,024</div>
+            <div class="label">Visitors today</div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px 0">Tips</h3>
+          <p class="muted" style="margin:0">Try different numbers (10–20 show BigInt), click the theme icon to toggle the moon/moon, or press the Surprise button for a playful greeting.</p>
+        </div>
+
+        <div class="card">
+          <h3 style="margin:0 0 8px 0">Accessibility</h3>
+          <p class="muted" style="margin:0">Buttons are keyboard focusable and results are announced to assistive tech via aria-live.</p>
+        </div>
+      </aside>
+    </div>
+
+    <footer>Made with ❤️ by GLA Demo • Want it tweaked? Tell me what you'd like to change.</footer>
+  </div>
+
+  <script>
+    // Small helpers & state
+    let clockInterval = null;
+    const names = ['Student','Visitor','Friend','Developer','Researcher','Scholar','Innovator','Learner'];
+
+    function showGreeting(fancy=false){
+      const n = names[Math.floor(Math.random()*names.length)];
+      const el = document.getElementById('greeting');
+      const heart = fancy ? ' ✨' : '';
+      el.innerHTML = `<span class="greet-anim">Hello, <strong>${n}</strong>! ${heart}</span>`;
+      // small flourish: briefly add pulse to visitors stat
+      const vs = document.getElementById('visitors');
+      vs.classList.add('pulse'); setTimeout(()=>vs.classList.remove('pulse'),800);
+    }
+
+    function computeFactorial(){
+      const out = document.getElementById('factResult');
+      const input = document.getElementById('num');
+      let v = input.value;
+      if (!/^-?\d+$/.test(v)) return showError(out,'Please enter a valid integer.');
+      v = Number(v);
+      if (v < 0) return showError(out,'Please enter a non-negative integer.');
+      try{
+        // use BigInt for safety on larger inputs
+        let res = 1n;
+        for (let i = 2n; i <= BigInt(v); i++) res *= i;
+        out.textContent = `${v}! = ${res.toString()}`;
+      }catch(e){
+        showError(out,'Value too large to compute');
+      }
+    }
+    function showError(el,msg){ el.textContent = msg; el.style.color = '#bf1650'; setTimeout(()=>{el.style.color='';},2500) }
+
+    function explainFactorial(){
+      const v = Number(document.getElementById('num').value);
+      if (isNaN(v) || v<0){ return showError(document.getElementById('factResult'),'Enter a non-negative integer first.') }
+      let steps = [];
+      for (let i=1;i<=Math.min(v,10);i++) steps.push(i);
+      document.getElementById('factResult').textContent = `Computation for ${v}: ${steps.join(' × ')}${v>10? ' × …' : ''}`;
+    }
+
+    function showTime(force=false){
+      const out = document.getElementById('time');
+      const now = new Date();
+      out.textContent = now.toLocaleString();
+      if (force){ /* small highlight */ out.classList.add('greet-anim'); setTimeout(()=>out.classList.remove('greet-anim'),700) }
+    }
+    function toggleClock(){
+      if (clockInterval){ clearInterval(clockInterval); clockInterval=null; } else { clockInterval = setInterval(showTime,1000); showTime(); }
+    }
+
+    // theme toggle — simple inversion (keeps it lightweight)
+    const themeToggle = document.getElementById('themeToggle');
+    let dark=false;
+    themeToggle.addEventListener('click',()=>{
+      dark = !dark; document.body.style.background = dark ? '#0b1220' : '';
+      document.body.style.color = dark ? '#e6eef8' : ''; themeToggle.textContent = dark ? '☀️' : '🌙';
+      document.querySelectorAll('.card').forEach(c=> c.style.background = dark ? 'linear-gradient(180deg, rgba(12,16,28,0.72), rgba(12,16,28,0.6))' : '');
+    });
+
+    // small progressive visitor counter (for delight)
+    (function incVisitors(){ const el = document.getElementById('visitors'); let n = 1024; setInterval(()=>{ n += Math.floor(Math.random()*3); el.textContent = n.toLocaleString() }, 4000) })();
+  </script>
+</body>
+</html>
